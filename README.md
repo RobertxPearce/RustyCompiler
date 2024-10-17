@@ -3,11 +3,7 @@
 ### Description
 A simple lexer and parser written in the Rust programming language.
 
-### Built With
-
 ## Files 
-
-# Directory Structure
 ```
 rustyparser/
 ├─ src/
@@ -18,6 +14,11 @@ rustyparser/
 ├─ Cargo.lock
 ├─ Cargo.toml
 ```
+### lexer.rs
+
+### parser.rs
+
+### main.rs
 
 ## Usage
 

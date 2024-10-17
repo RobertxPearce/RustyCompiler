@@ -4,7 +4,6 @@
 A simple lexer and parser written in the Rust programming language using the LL(1) grammar below. This grammar represents a small language with semicolon delimited statements and assignment, addition, and subtraction operations. 
 
 ### Grammar
-
 ```               
 <program> → begin <stmt_list> end 
 <stmt_list> → <assign> ; <stmt_list>

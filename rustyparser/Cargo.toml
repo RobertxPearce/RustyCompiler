@@ -1,0 +1,7 @@
+[package]
+name = "rustyparser"
+version = "0.1.0"
+edition = "2021"
+authors = ["Robert Pearce <robertbdpearce@gmail.com>"]
+
+[dependencies]

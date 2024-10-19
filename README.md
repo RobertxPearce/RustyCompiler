@@ -7,6 +7,7 @@ A simple lexer and parser written in the Rust programming language using the LL(
 ```               
 <program> → begin <stmt_list> end 
 <stmt_list> → <assign> ; <stmt_list>
+            | ϵ
 <assign> → <var> = <expression>
 <expression> → <var> <arith>
 <arith> → + <expression>

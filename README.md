@@ -46,9 +46,16 @@ rustyparser/
 ### parser.rs
 
 ### main.rs
+* **LEXICAL ANALYSIS** - Initializes a lexer with an input string. It loops through generating tokens and pushing them into a vector terminating when TokEnd is encountered. The is then printed for debugging.
 
 ## Usage
-
+Update parameter: `let mut lexer = lexer::Lexer::new("start = a + b + c; end".to_string());` 
+```bash
+cargo build
+```
+```bash
+cargo run
+```
 ## Resources
 1. Sebesta, Robert W. Concepts of Programming Languages - 10th Edition. Pearson Addison Wesley, 2012.
     ```

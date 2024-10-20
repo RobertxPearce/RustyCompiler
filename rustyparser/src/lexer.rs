@@ -6,7 +6,7 @@
 
 /// Enumeration for the tokens
 #[derive(Debug, Clone, PartialEq)]
-enum TokenTypes {
+pub enum TokenTypes {
     TokStart,   // start
     TokEnd,     // end
     TokSemi,    // ;
@@ -17,15 +17,16 @@ enum TokenTypes {
     TokB,       // b
     TokC,       // c
     TokInvalid, // Error
-    TokEOF,     // End of File
 }
 
 /// Struct for token type
+#[derive(Debug, Clone, PartialEq)]
 pub struct Token {
-    kind: TokenTypes,   // Variable for token type
-    line: usize,        // Variable for line of token
+    pub kind: TokenTypes,   // Variable for token type
+    pub line: usize,        // Variable for line of token
 }
 
+/// Implement methods for use with Token
 impl Token {
     /// @Brief Function to create and return token
     /// @Param Reference to lexer
@@ -71,6 +72,7 @@ impl Lexer {
     /// @Brief Function to return the current line #
     /// @Param Reference to self
     /// @Return The current line #
+    #[allow(dead_code)]
     pub fn get_line(&self) -> usize {
         self.line
     }
@@ -79,8 +81,11 @@ impl Lexer {
     /// @Param Mutable reference to self to update position
     fn skip_whitespace(&mut self) {
         while let Some(c) = self.next_char() {
-            if c == ' ' || c == '\t' || c == '\n' || c == '\r' {
+            if c == ' ' || c == '\t' {
                 self.position += 1;
+            } else if c == '\n' || c == '\r' {
+                self.position += 1;
+                self.line += 1;
             } else {
                 break;
             }
@@ -90,21 +95,35 @@ impl Lexer {
     /// @Brief Function to "consume" current lexeme
     /// @Param Mutable reference to self
     fn consume(&mut self) {
+        // println!("Consuming Lexeme: {:?}", self.next_char());
         self.position += 1;
     }
 
     /// @Brief Function to "consume" keywords
     /// @Param Mutable reference to self
-    fn consume_keywords(&mut self) {
-
+    fn consume_keyword(&mut self) {
+        // Check for "start"
+        if self.input[self.position..].starts_with("start") {
+            // println!("Consuming 'start' keyword.");
+            self.position += 5;
+        }
+        // Check for "end"
+        else if self.input[self.position..].starts_with("end") {
+            // println!("Consuming 'end' keyword.");
+            self.position += 3;
+        }
     }
 
     /// @Brief Function to return the current token
     /// @Param Reference to self mutable to update position
     /// @Return Current Token
     pub fn next_token(&mut self) -> Token {
+
         // Skip whitespace
         self.skip_whitespace();
+
+        // println!("Current Position: {}", self.position);
+        // println!("Current Lexeme: {:?}", self.next_char());
 
         // Set char variable to next token
         let char = self.next_char();
@@ -112,11 +131,11 @@ impl Lexer {
         // Switch statement to determine token type
         let curr_type = match char {
             Some('s') => {
-                self.consume();
+                self.consume_keyword();
                 TokenTypes::TokStart
             },
             Some('e') => {
-                self.consume();
+                self.consume_keyword();
                 TokenTypes::TokEnd
             },
             Some(';') => {
@@ -152,7 +171,7 @@ impl Lexer {
                 TokenTypes::TokInvalid
             },
             None => {
-                TokenTypes::TokEOF
+                TokenTypes::TokInvalid
             },
         };
 

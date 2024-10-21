@@ -6,14 +6,20 @@ A simple lexer and parser written in the Rust programming language using the LL(
 ### Grammar
 ```               
 <program> → start <stmt_list> end 
-<stmt_list> → <assign> ; <stmt_list>
+<stmt_list> → <stmt> ; <stmt_list>
             | ϵ
-<assign> → <var> = <expression>
-<expression> → <var> <arith>
-<arith> → + <expression>
-        | - <expression>
-        | ϵ
+<stmt> → <assign>
+       | <expr>
+<assign> → <type> <var> = <expr>
+<type> → int
 <var> → A | B | C
+<expr> → <var> <sum>
+<sum> → + <expr>
+      | - <expr>
+      | <factor>
+<factor> → * <expr>
+         | / <expr>
+         | ϵ
 ```
 
 ## Files
@@ -46,16 +52,17 @@ rustyparser/
 ### parser.rs
 
 ### main.rs
-* **LEXICAL ANALYSIS** - Initializes a lexer with an input string. It loops through generating tokens and pushing them into a vector terminating when TokEnd is encountered. The is then printed for debugging.
+* **LEXICAL ANALYSIS** - Initializes a lexer with an input string. It loops through generating tokens and pushing them into a vector terminating when TokEnd is encountered. The vector is then printed for debugging.
 
 ## Usage
-Update parameter: `let mut lexer = lexer::Lexer::new("start = a + b + c; end".to_string());` 
+Update parameter: `let mut lexer = lexer::Lexer::new("start \n a = a + b + c; \n end".to_string());` 
 ```bash
 cargo build
 ```
 ```bash
 cargo run
 ```
+
 ## Resources
 1. Sebesta, Robert W. Concepts of Programming Languages - 10th Edition. Pearson Addison Wesley, 2012.
     ```

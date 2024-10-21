@@ -1,48 +1,12 @@
 /// Robert Pearce
-/// Lexer Implementation in Rust
+/// Lexer Implementation
 
-///----------------------------------
-///     TOKEN
-
-/// Enumeration for the tokens
-#[derive(Debug, Clone, PartialEq)]
-pub enum TokenTypes {
-    TokStart,   // start
-    TokEnd,     // end
-    TokSemi,    // ;
-    TokAssign,  // =
-    TokPlus,    // +
-    TokMinus,   // -
-    TokA,       // a
-    TokB,       // b
-    TokC,       // c
-    TokInvalid, // Error
-}
-
-/// Struct for token type
-#[derive(Debug, Clone, PartialEq)]
-pub struct Token {
-    pub kind: TokenTypes,   // Variable for token type
-    pub line: usize,        // Variable for line of token
-}
-
-/// Implement methods for use with Token
-impl Token {
-    /// @Brief Function to create and return token
-    /// @Param Reference to lexer
-    /// @Param Token Type
-    pub fn make_token(curr_line: usize, curr_type: TokenTypes) -> Token {
-        Token {
-            kind: curr_type,
-            line: curr_line,
-        }
-    }
-}  // End of Token methods
+use crate::token;
 
 ///----------------------------------
 ///     LEXER
 
-/// Struct for the lexical analysis
+/// Struct for the lexer
 pub struct Lexer {
     input: String,      // Variable for source code
     position: usize,    // Variable for current position
@@ -112,12 +76,17 @@ impl Lexer {
             // println!("Consuming 'end' keyword.");
             self.position += 3;
         }
+        // Check for "int"
+        else if self.input[self.position..].starts_with("int") {
+            // println!("Consuming 'end' keyword.");
+            self.position += 3;
+        }
     }
 
     /// @Brief Function to return the current token
     /// @Param Reference to self mutable to update position
     /// @Return Current Token
-    pub fn next_token(&mut self) -> Token {
+    pub fn next_token(&mut self) -> token::Token {
 
         // Skip whitespace
         self.skip_whitespace();
@@ -132,50 +101,62 @@ impl Lexer {
         let curr_type = match char {
             Some('s') => {
                 self.consume_keyword();
-                TokenTypes::TokStart
+                token::TokenTypes::TokStart
             },
             Some('e') => {
                 self.consume_keyword();
-                TokenTypes::TokEnd
+                token::TokenTypes::TokEnd
             },
             Some(';') => {
                 self.consume();
-                TokenTypes::TokSemi
+                token::TokenTypes::TokSemi
             },
             Some('=') => {
                 self.consume();
-                TokenTypes::TokAssign
+                token::TokenTypes::TokAssign
             },
-            Some('+') => {
-                self.consume();
-                TokenTypes::TokPlus
-            },
-            Some('-') => {
-                self.consume();
-                TokenTypes::TokMinus
+            Some('i') => {
+                self.consume_keyword();
+                token::TokenTypes::TokInt
             },
             Some('a') => {
                 self.consume();
-                TokenTypes::TokA
+                token::TokenTypes::TokVar
             },
             Some('b') => {
                 self.consume();
-                TokenTypes::TokB
+                token::TokenTypes::TokVar
             },
             Some('c') => {
                 self.consume();
-                TokenTypes::TokC
+                token::TokenTypes::TokVar
+            },
+            Some('+') => {
+                self.consume();
+                token::TokenTypes::TokPlus
+            },
+            Some('-') => {
+                self.consume();
+                token::TokenTypes::TokMinus
+            },
+            Some('*') => {
+                self.consume();
+                token::TokenTypes::TokMul
+            },
+            Some('/') => {
+                self.consume();
+                token::TokenTypes::TokDiv
             },
             Some(_) => {
                 self.consume();
-                TokenTypes::TokInvalid
+                token::TokenTypes::TokInvalid
             },
             None => {
-                TokenTypes::TokInvalid
+                token::TokenTypes::TokInvalid
             },
         };
 
-        Token::make_token(self.line, curr_type)
+        token::Token::make_token(self.line, curr_type)
     }
 
 }  // End of Lexer methods

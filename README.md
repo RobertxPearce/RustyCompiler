@@ -32,22 +32,20 @@ rustyparser/
 ├─ target/
 ├─ Cargo.toml
 ```
+### token.rs
+* `enum TokenTypes`: Enumeration for the types of tokens in language.
+* `struct Token`: Struct to encapsulate token data such as type and line # for tokens made.
+* `make_token(curr_line: usize, curr_type: TokenTypes) -> Token`: Function to make token given line # and type.
+
 ### lexer.rs
-
-* **Token**
-  * `enum TokenTypes`: Enumeration for the types of tokens in language.
-  * `struct Token`: Struct to encapsulate token data such as type and line # for tokens made.
-  * `make_token(curr_line: usize, curr_type: TokenTypes) -> Token`: Function to make token given line # and type.
-
-* **Lexer**
-  * `struct Lexer`: Struct to represent the Lexer with members for input, position, and line #.
-  * `new(input: String) -> Self`: Constructor to initialize Lexer given input string.
-  * `next_char(&self) -> Option<char>`: Function to get char at the current position.
-  * `get_line(&self) -> usize`: Function to get the current line #.
-  * `skip_whitespace(&mut self)`: Function to skip whitespace (' ', '\t', '\n', '\r').
-  * `consume(&mut self)`: Function to "consume" the current lexeme (inc position).
-  * `consume_keywords(&mut self)`: Function to "consume" the keywords (start & end).
-  * `next_token(&mut self) -> Token`: Function to create and return the current token.
+* `struct Lexer`: Struct to represent the Lexer with members for input, position, and line #.
+* `new(input: String) -> Self`: Constructor to initialize Lexer given input string.
+* `next_char(&self) -> Option<char>`: Function to get char at the current position.
+* `get_line(&self) -> usize`: Function to get the current line #.
+* `skip_whitespace(&mut self)`: Function to skip whitespace (' ', '\t', '\n', '\r').
+* `consume(&mut self)`: Function to "consume" the current lexeme (inc position).
+* `consume_keywords(&mut self)`: Function to "consume" the keywords (start & end).
+* `next_token(&mut self) -> Token`: Function to create and return the current token.
 
 ### parser.rs
 

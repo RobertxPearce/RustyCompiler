@@ -1,7 +1,7 @@
-# Rusty Parser
+# Rusty Compiler
 
 ### Description
-A simple lexer and parser written in the Rust programming language using the LL(1) grammar below. This grammar represents a small language with semicolon delimited statements and assignment, addition, and subtraction operations. 
+A simple compiler written in the Rust programming language using the LL(1) grammar below. This grammar represents a small language with semicolon delimited statements, arithmetic operations, and simple control structures. 
 
 ### Grammar
 ```               
